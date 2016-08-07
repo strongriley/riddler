@@ -5,7 +5,9 @@ import matplotlib.pyplot as plt
 from math import acos, sin, cos, pi, atan2, sqrt, pow
 from numpy.random import rand
 
-SIMULATIONS_PER_RATIO = 100000 # make this smaller to run faster, larger to be more precise.
+SIMULATIONS_PER_RATIO = 1000000 # make this smaller to run faster, larger to be more precise.
+RATIO_HIGH_INCLUSIVE = 20 # What's the highest ratio we want to calculate for?
+RATIO_LOW_INCLUSIVE = 20 # What's the lowest speed ratio to calculate for?
 
 # Formulae derived from
 # https://en.wikipedia.org/wiki/Great-circle_distance
@@ -19,7 +21,7 @@ class Point(object):
     def __init__(self, lat, lon):
         self.lat = lat
         self.lon = lon
-        
+
     def central_angle_to(self, point):
         """
         Returns the size of the angle between this
@@ -28,7 +30,7 @@ class Point(object):
         return acos(
             sin(self.lat)*sin(point.lat)+
             cos(self.lat)*cos(point.lat)*cos(abs(self.lon-point.lon)))
-    
+
     def midpoint(self, point):
         """
         Returns Point() that sits equally between this
@@ -41,16 +43,16 @@ class Point(object):
             sqrt(pow(cos(self.lat+bx), 2) + pow(by, 2)))
         lon_midpoint = self.lon + atan2(by, cos(self.lat)+bx)
         return Point(lat_midpoint, lon_midpoint)
-    
+
     def get_lat_pi(self):
         return "%sπ" % (self.lat / pi)
-    
+
     def get_lon_pi(self):
         return "%sπ" % (self.lon / pi)
-    
+
     def __repr__(self):
         return "lat: %s, lon: %s" % (self.get_lat_pi(), self.get_lon_pi())
-    
+
 def trial(ratio):
     """
     Runs one trial of aliens randomly landing
@@ -65,7 +67,7 @@ def trial(ratio):
     alien2 = Point(*two_random_angles())
     patrol = Point(*two_random_angles())
     midpoint = alien1.midpoint(alien2)
-    
+
     # If the distance the patrol car has to travel is less than
     # [ratio] times the distance each alien will travel to the midpoint,
     # then we're saved!
@@ -84,7 +86,7 @@ def simulation(ratio):
 
 ratios = []
 percentages = []
-for ratio in xrange(1, 21):
+for ratio in xrange(RATIO_LOW_INCLUSIVE, RATIO_HIGH_INCLUSIVE + 1):
     ratios.append(ratio)
     percentages.append(simulation(ratio) * 100)
 print percentages[-1]
