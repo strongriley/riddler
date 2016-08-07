@@ -94,8 +94,8 @@ def solve_3hour():
     for first_max_kg in max_kgs:
         for second_max_kg in max_kgs:
             # Eliminate scenarios that don't make sense (second_max_kg < first_max_kg)
-            if second_max_kg < first_max_kg:
-                continue
+            #if second_max_kg < first_max_kg:
+            #    continue
             first_max_kgs.append(first_max_kg)
             second_max_kgs.append(second_max_kg)
 
