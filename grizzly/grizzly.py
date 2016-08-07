@@ -45,10 +45,24 @@ def solve_2hour():
         print "min kg {0:.2f}, mean eaten: {1:.3f}kg".format(max_kgs[i], mn)
         means.append(mn)
         stdevs.append(st)
+
+    # Results of different max kg values
     fig, ax = plt.subplots()
     ax.bar(max_kgs, means, BAR_WIDTH, color='g', yerr=stdevs)
     ax.set_title('Average kg of fish eaten by max weight of first fish')
     fig.set_size_inches(10, 10)
+    plt.show()
+
+    # Histogram of salmon eaten when always eat the first one
+    fig, ax = plt.subplots()
+    ax.hist(eaten[len(max_kgs)-1], bins=20, range=(0, 2))
+    ax.set_title('Average kg of fish eaten when always eating first fish')
+    plt.show()
+
+    # Histogram when only eating the first if it's less than 0.5 kg
+    fig, ax = plt.subplots()
+    ax.hist(eaten[5], bins=20, range=(0, 2))
+    ax.set_title('Average kg of fish eaten when only eating first fish if no more than 0.5 kg')
     plt.show()
 
 def trial_3hour(first_max_kg, second_max_kg):
